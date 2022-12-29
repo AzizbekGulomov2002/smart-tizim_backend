@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'djoser',
     'students.apps.StudentsConfig',
     'courses.apps.CoursesConfig',
-     'drf_yasg',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
