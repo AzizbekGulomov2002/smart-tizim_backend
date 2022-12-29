@@ -14,14 +14,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from center.views import set_language
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Smart Ta'lim API",
+      default_version='v1',
+      description="Smart Ta'lim Yangicha Uslub!",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="azizbekgulomov1529@gmail.com"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
 urlpatterns =[
-      path("set_language/<str:language>", set_language, name="set-language"),
-      path('i18n/',include('django.conf.urls.i18n'))
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path("set_language/<str:language>", set_language, name="set-language"),
+    path('i18n/',include('django.conf.urls.i18n'))
 ]
 urlpatterns +=i18n_patterns(
     
