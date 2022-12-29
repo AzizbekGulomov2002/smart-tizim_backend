@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['.pythonanywhere.com','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,13 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
-     "corsheaders",
+    "corsheaders",
+    'center.apps.CenterConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'students.apps.StudentsConfig',
+    'courses.apps.CoursesConfig'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-      "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,9 +98,9 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
@@ -117,13 +124,14 @@ USE_I18N = True
 
 USE_TZ = True
 from django.utils.translation import gettext_lazy as _
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale'
+]
 LANGUAGES = (
     ('uz',_('Uzbek')),
     ('en',_('English'))
 )
-LOCALES_PATH = [
-    BASE_DIR / 'locale'
-]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 import os
@@ -174,7 +182,7 @@ JAZZMIN_SETTINGS = {
     "site_logo_classes": "img-circle",
 
     # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
-    "site_icon": None,
+    "site_icon": 'images/title.png',
 
     # Welcome text on the login screen
     "welcome_sign": "Smart Ta'lim CRM platformasiga xush kelibsiz!",
@@ -184,7 +192,7 @@ JAZZMIN_SETTINGS = {
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string 
-    "search_model": ["auth.User", "auth.Group"],
+    "search_model": ["auth.User", 'center.StudyCenter'],
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
@@ -254,6 +262,15 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
+        'auth.toke':'fas fa-user',
+        'center.User':'fas fa-user',
+        'center.Teacher':'fas fa-chalkboard-teacher',
+        'center.Director':'fas fa-user-cog',
+        'center.Manager':'fas fa-dollar-sign',
+        'students.Student':'fas fa-graduation-cap',
+        'courses.Course':'fas fa-book-open',
+        'courses.Room':'fas fa-building',
+        'courses.Groups':'fas fa-users'
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -296,4 +313,13 @@ JAZZMIN_UI_TWEAKS = {
    
     # "theme": "simplex",
     # "dark_mode_theme": "darkly",
+}
+# Add Custom User Model
+AUTH_USER_MODEL = 'center.User'
+# Password validation
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
