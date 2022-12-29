@@ -35,14 +35,13 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 urlpatterns =[
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path("set_language/<str:language>", set_language, name="set-language"),
     path('i18n/',include('django.conf.urls.i18n'))
 ]
 urlpatterns +=i18n_patterns(
-    
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/',include('center.urls')),
     path('auth/',include('djoser.urls')),
     path('auth/',include('djoser.urls.authtoken')),
