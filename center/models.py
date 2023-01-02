@@ -10,7 +10,7 @@ class User(AbstractUser,PermissionsMixin):
         DIRECTOR = "DIRECTOR",'director'
         MANAGER = "MANAGER","manager"
         TEACHER = "TEACHER",'teacher'
-    role = models.CharField(max_length=15,choices=Role.choices)
+    role = models.CharField(max_length=15,choices=Role.choices,null=True,blank=True)
     class Meta:
         db_table = "User"
 class DirectorManager(BaseUserManager):
@@ -84,7 +84,6 @@ class Teacher(User):
     class Meta:
         proxy = True
     def save(self,*args,**kwargs):
-        if not self.pk:
            self.role = self.base_role
            return super().save(*args,**kwargs)
     objects = TeacherManager()

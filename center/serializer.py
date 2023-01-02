@@ -11,7 +11,7 @@ class ManagerSerializer(serializers.ModelSerializer):
         model = Manager
         fields = "__all__"
     def create(self, validated_data):
-        return Director.objects.create_user(username=validated_data['username'],password=validated_data['password'])
+        return Manager.objects.create_user(username=validated_data['username'],password=validated_data['password'])
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher

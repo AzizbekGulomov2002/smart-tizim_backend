@@ -1,5 +1,4 @@
 from django.db import models
-from students.models import Student
 # Create your models here.
 from django.utils.translation import gettext_lazy as _ 
 class Course(models.Model):
@@ -42,4 +41,9 @@ class Groups(models.Model):
         verbose_name = " Group "
         verbose_name_plural = " Groups "
     
-    
+class ClassRoom(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_("ClassRoom name"))
+    def __str__(self):
+        return self.name
+    class Meta:
+        db_table ='ClassRoom'

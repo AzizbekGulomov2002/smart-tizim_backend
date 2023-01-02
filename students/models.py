@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from center.models import User
+from courses.models import Groups, Course, ClassRoom
+
 # Create your models here.
 class Student(models.Model):
     class Languages(models.TextChoices):
@@ -14,6 +16,9 @@ class Student(models.Model):
     birth = models.DateField(verbose_name=_("Student Birth Year"),help_text=_("Enter Student Birth Year"),null=True,blank=True)
     added = models.DateTimeField(auto_now_add=True)
     language = models.CharField(max_length=15,choices=Languages.choices,verbose_name=_("Language"),help_text=_("Enter language"),null=True,blank=True)
+    groups = models.ForeignKey(Groups,on_delete=models.CASCADE,null=True,blank=True)
+    classroom = models.ForeignKey(ClassRoom,on_delete=models.CASCADE,null=True,blank=True)
+    course =models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
     address = models.CharField(max_length=100,help_text=_("Enter address"),verbose_name=_("Address"),null=True,blank=True)
     email = models.EmailField(unique=True,null=True,blank=True)
     one_id = models.CharField(max_length=40,null=True,blank=True)
