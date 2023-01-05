@@ -9,3 +9,7 @@ class StudentViewset(ModelViewSet):
     queryset =  Student.objects.all()
     serializer_class =  Studentserializer
     permission_classes = [IsManagerandDirectorOrReadOnly]
+class DavomatViewset(ModelViewSet):
+    queryset =  Davomat.objects.all()
+    serializer_class = Davomatserializer
+    # permission_classes = [IsManagerandDirectorOrReadOnly]

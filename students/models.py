@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from center.models import User
 from courses.models import Groups, Course, ClassRoom
-
+from django.utils.html import format_html
 # Create your models here.
 class Student(models.Model):
     class Languages(models.TextChoices):
@@ -21,17 +21,34 @@ class Student(models.Model):
     course =models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
     address = models.CharField(max_length=100,help_text=_("Enter address"),verbose_name=_("Address"),null=True,blank=True)
     email = models.EmailField(unique=True,null=True,blank=True)
-    one_id = models.CharField(max_length=40,null=True,blank=True)
-    def save(self, *args, **kwargs):
-        super(Student, self).save(*args, **kwargs)
-        if  not self.one_id:
-            self.one_id = self.id +10000
-        super(Student, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+
+
     class Meta:
         db_table = 'Students'
         verbose_name = _("Student ")
         verbose_name_plural = _("Students ")
+class Davomat(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE,related_name='davomat',to_field='phone')
+    status = models.BooleanField(default=True)
+    date = models.DateTimeField(unique=True)
+    description = models.TextField(default="Sabab ko'rsatilmagan")
+
+    def __str__(self):
+        return self.student.name
+    class Meta:
+        verbose_name=" Davomat "
+        verbose_name_plural =" Davomatlar "
+
+    @property
+    def info(self):
+        if self.status:
+            return '✅'
+        else:
+            return '❌'
+
+
         
         
