@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from .models import Student,Davomat
+from .models import Student,Davomat,Test
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Test
+        fields ='__all__'
 class Davomatserializer(serializers.ModelSerializer):
     class Meta:
         model = Davomat

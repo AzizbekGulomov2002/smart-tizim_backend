@@ -48,7 +48,18 @@ class Davomat(models.Model):
             return '✅'
         else:
             return '❌'
-
+class Test(models.Model):
+    test_kodi = models.CharField(max_length=60)
+    fan_nomi = models.CharField(max_length=250)
+    talaba = models.CharField(max_length=200)
+    telefon_raqam = models.CharField(max_length=40)
+    savollar_soni = models.IntegerField()
+    togri_javoblar = models.IntegerField()
+    def __str__(self):
+        return self.test_kodi
+    class Meta:
+        verbose_name ="Natija "
+        verbose_name_plural ="Natijalar "
 
         
         

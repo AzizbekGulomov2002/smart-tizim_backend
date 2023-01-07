@@ -30,3 +30,9 @@ class DavomatAdmin(admin.ModelAdmin):
     #     print(obj.user.role)
     #     if obj.user.role == 'MANAGER' or obj.user.role=='DIRECTOR':
     #         super().save_model(request, obj, form, change)
+@admin.register(Test)
+class TestAdmin(admin.ModelAdmin):
+    list_filter = ['test_kodi']
+    list_display = ['test_kodi','fan_nomi','talaba']
+    search_fields = ['test_kodi','fan_nomi','talaba','telefon_raqam']
+    list_per_page = 10
