@@ -272,6 +272,7 @@ JAZZMIN_SETTINGS = {
         'center.Manager':'fas fa-dollar-sign',
         'students.Student':'fas fa-graduation-cap',
         'students.Davomat':'fas fa-calendar',
+        'students.Test':'fas fa-check',
         'courses.Course':'fas fa-book-open',
         'courses.Room':'fas fa-building',
         'courses.Groups':'fas fa-users'
