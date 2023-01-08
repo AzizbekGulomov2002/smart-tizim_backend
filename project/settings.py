@@ -63,7 +63,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    'https://smarttalim.netlify.app'
+    'https://smarttalim.netlify.app',
+    
 ]
 ROOT_URLCONF = 'project.urls'
 

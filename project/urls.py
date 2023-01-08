@@ -27,6 +27,32 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
+from datetime import datetime
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer,TokenRefreshSerializer
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        # Add extra responses here
+        data['role'] = self.user.role
+        return data
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+# class MyTokenRefreshSerializer(TokenRefreshSerializer):
+#     def validate(self, attrs):
+#         data = super().validate(attrs)
+#         refresh = self.get_token(self.user)
+#         data['refresh'] = str(refresh.refresh_token)
+#         print(refresh)
+#         # data.pop('refresh', None) # remove refresh from the payload
+#         data['access'] = str(refresh.access_token)
+#         # Add extra responses here
+#         data['role'] = self.user.role
+#         return data
+# class MyTokenRefreshView(TokenRefreshView):
+#     serializer_class = MyTokenRefreshSerializer
 schema_view = get_schema_view(
    openapi.Info(
       title="Smart Ta'lim API",
@@ -48,7 +74,7 @@ urlpatterns +=i18n_patterns(
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/',include('center.urls')),
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('admin/', admin.site.urls),

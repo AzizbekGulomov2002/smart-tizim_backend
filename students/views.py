@@ -1,14 +1,11 @@
 from django.shortcuts import render
-
 from courses.permissions import IsManagerandDirectorOrReadOnly
-# Create your views here.
 from .models import * 
 from .serializer import *
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 import codecs
 import csv
-
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 fs = FileSystemStorage(location='tmp/')
@@ -16,13 +13,10 @@ from rest_framework.decorators import action
 class TestViewset(ModelViewSet):
     queryset = Test.objects.all()
     serializer_class = TestSerializer
-
     @action(detail=False, methods=['POST'])
     def upload_data(self, request):
-        """Upload data from CSV"""
         file = request.FILES["file"]
-
-        content = file.read()  # these are bytes
+        content = file.read()
         file_content = ContentFile(content)
         file_name = fs.save(
             "_tmp.csv", file_content
@@ -54,17 +48,12 @@ class TestViewset(ModelViewSet):
             )
         print(results_list)
         Test.objects.bulk_create(results_list)
-
         return Response("Successfully upload the data")
-
     @action(detail=False, methods=['POST'])
     def upload_data_with_validation(self, request):
-        """Upload data from CSV, with validation."""
         file = request.FILES.get("file")
-
         reader = csv.DictReader(codecs.iterdecode(file, "utf-8"), delimiter=",")
         data = list(reader)
-
         serializer = self.serializer_class(data=data, many=True)
         serializer.is_valid(raise_exception=True)
         results_list = []
