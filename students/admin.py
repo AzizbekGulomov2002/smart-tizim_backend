@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['user','name','phone','parent','birth']
+    list_display = ['name','phone','parent','birth']
     list_filter = ['added']
     search_fields =  ['name','phone','parent','birth']
     list_per_page = 10
