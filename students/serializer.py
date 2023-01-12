@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Student,Davomat,Test
+from center.serializer import ManagerSerializer
+from center.models import User
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Test
@@ -13,6 +15,13 @@ class Studentserializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields ="__all__"
+        read_only_fields = ['id', 'user']
+        depth=1
+
+    def create(self, validated_data):
+        user= self.context["request"].user
+        student = Student.objects.create(**validated_data,user=user)
+        return student
 
 '''
  ["id",

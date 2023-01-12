@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from courses.permissions import IsManagerandDirectorOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from .models import * 
 from .serializer import *
 from rest_framework.viewsets import ModelViewSet
@@ -74,9 +76,18 @@ class TestViewset(ModelViewSet):
 
         return Response("Successfully upload the data")
 class StudentViewset(ModelViewSet):
-    queryset =  Student.objects.all()
-    serializer_class =  Studentserializer
+    queryset =Student.objects.all()
+    serializer_class = Studentserializer
+    # authentication_classes = [TokenAuthentication]
     permission_classes = [IsManagerandDirectorOrReadOnly]
+
+    def get_serializer_context(self):
+        # this is the trick since you want to pass the request object to your serializer
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer

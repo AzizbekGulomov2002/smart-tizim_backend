@@ -1,5 +1,8 @@
-from rest_framework import serializers
+from rest_framework import serializers,status
 from .models import *
+from rest_framework.response import Response
+from students.models import Student
+from students.serializer import Studentserializer
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -9,6 +12,10 @@ class RoomSerializer(serializers.ModelSerializer):
         model = Room
         fields = '__all__'
 class GroupSerializer(serializers.ModelSerializer):
+    student = Studentserializer(many=True,read_only=True)
+    course = CourseSerializer(many=True,read_only=True)
+    room = RoomSerializer(many=True,read_only=True)
     class Meta:
         model = Groups
         fields = '__all__'
+    

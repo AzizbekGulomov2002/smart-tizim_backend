@@ -140,10 +140,11 @@ LANGUAGES = (
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 import os
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-# STATICFILES_DIRS =[
-#     BASE_DIR /'static'
-# ]
+# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+if DEBUG:
+    STATICFILES_DIRS =[
+        BASE_DIR /'static'
+    ]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # Default primary key field type
@@ -324,9 +325,10 @@ JAZZMIN_UI_TWEAKS = {
 AUTH_USER_MODEL = 'center.User'
 # Password validation
 REST_FRAMEWORK = {
-     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+      'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+       'rest_framework_simplejwt.authentication.JWTAuthentication',
+   ),
 }
 # JWT SETTINGS
 import datetime

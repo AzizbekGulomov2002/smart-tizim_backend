@@ -1,6 +1,7 @@
 from django.db import models
 # Create your models here.
-from django.utils.translation import gettext_lazy as _ 
+from django.utils.translation import gettext_lazy as _
+from students.models import Student
 class Course(models.Model):
     name = models.CharField(max_length=100,help_text=_("Enter course name"),verbose_name=_("Course name"))
     cost = models.CharField(max_length=600,verbose_name=_("Cost"),help_text=_("Enter cost"))
@@ -29,9 +30,11 @@ class Groups(models.Model):
         ACTIVE = 'active','Active'
         WAITING = 'waiting','Waiting'
     name = models.CharField(max_length=100,verbose_name=_("Group name"))
-    course = models.ForeignKey(Course,on_delete=models.CASCADE,verbose_name=_("Course"))
-    education = models.CharField(max_length=10,choices=Education.choices)
-    status = models.CharField(max_length=10,choices=Status.choices)
+    course = models.ManyToManyField(Course)
+    education = models.CharField(max_length=10,choices=Education.choices,null=True,blank=True)
+    student = models.ManyToManyField(Student)
+    room =models.ManyToManyField(Room)
+    status = models.CharField(max_length=10,choices=Status.choices,null=True,blank=True)
     start = models.DateField(null=True,blank=True)
     finish = models.DateField(null=True,blank=True)
     def __str__(self):

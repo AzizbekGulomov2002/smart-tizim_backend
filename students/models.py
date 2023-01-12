@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from center.models import User
-from courses.models import Groups, Course, ClassRoom
 from django.utils.html import format_html
 # Create your models here.
 class Student(models.Model):
@@ -9,7 +8,7 @@ class Student(models.Model):
         UZBEK = "uzbek","O'zbekcha"
         ENGLISH = 'english',"English"
         RUSSIAN = 'russian',"Русский"
-    # user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name=_("User"),help_text=_("Select User"))
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name=_("User"),help_text=_("Select User"))
     name = models.CharField(max_length=40,verbose_name=_("Student Name"),help_text=_("Enter Student Name"),null=True,blank=True)
     phone = models.CharField(max_length=15,unique=True,verbose_name=_("Student Phone Number"),help_text=_("Enter Student Phone Number"),null=True,blank=True)
     parent = models.CharField(max_length=15,verbose_name=_("Parent Phone Number"),help_text=_("Enter Parent Phone Number"),null=True,blank=True)
