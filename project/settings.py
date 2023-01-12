@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'drf_yasg',
     'rest_framework_simplejwt',
+    'payment.apps.PaymentConfig'
 ]
 
 MIDDLEWARE = [

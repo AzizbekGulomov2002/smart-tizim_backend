@@ -12,6 +12,10 @@ class Davomatserializer(serializers.ModelSerializer):
         fields = '__all__'
 class Studentserializer(serializers.ModelSerializer):
     davomat =Davomatserializer(many=True,read_only=True)
+    last_payment = serializers.SerializerMethodField()
+
+    def get_last_payment(self, obj):
+        return obj.tolov
     class Meta:
         model = Student
         fields ="__all__"

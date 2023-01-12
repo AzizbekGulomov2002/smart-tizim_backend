@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from center.models import User
 from django.utils.html import format_html
+from datetime import datetime
 # Create your models here.
 class Student(models.Model):
     class Languages(models.TextChoices):
@@ -21,6 +22,15 @@ class Student(models.Model):
     email = models.EmailField(unique=True,null=True,blank=True)
     def __str__(self):
         return self.name
+    @property
+    def tolov(self):
+        data = self.payment.last()
+        if data:
+            time = data.date
+            date_time = time.strftime("%m/%d/%Y, %H:%M:%S")
+            return date_time
+
+
     class Meta:
         db_table = 'Students'
         verbose_name = _("Student ")
