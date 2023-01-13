@@ -2,6 +2,7 @@ from django.db import models
 # Create your models here.
 from django.utils.translation import gettext_lazy as _
 from students.models import Student
+from center.models import *
 class Course(models.Model):
     name = models.CharField(max_length=100,help_text=_("Enter course name"),verbose_name=_("Course name"))
     cost = models.CharField(max_length=600,verbose_name=_("Cost"),help_text=_("Enter cost"))
@@ -37,6 +38,7 @@ class Groups(models.Model):
     status = models.CharField(max_length=10,choices=Status.choices,null=True,blank=True)
     start = models.DateField(null=True,blank=True)
     finish = models.DateField(null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True,related_name='myuser')
     def __str__(self):
         return self.name
     class Meta:

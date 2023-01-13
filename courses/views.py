@@ -21,7 +21,7 @@ class GroupsViewset(ModelViewSet):
     permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
-        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),finish=data.get('finish',None))
+        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),finish=data.get('finish',None),user=request.user)
         group.save()
         if 'room' in data:
             for room in data['room']:
@@ -80,6 +80,7 @@ class GroupsViewset(ModelViewSet):
         group_object.status=data.get('status',None)
         group_object.start=data.get('start',None)
         group_object.finish=data.get('finish',None)
+        group_object.user=request.user
         serializer = GroupSerializer(group_object)
         return Response(serializer.data)
     def partial_update(self, request, *args, **kwargs):
@@ -110,6 +111,7 @@ class GroupsViewset(ModelViewSet):
         group_object.status=data.get('status',group_object.status)
         group_object.start=data.get('start',group_object.start)
         group_object.finish=data.get('finish',group_object.finish)
+        group_object.user=data.get(request.user,group_object.user)
         serializer = GroupSerializer(group_object)
         return Response(serializer.data) 
     def destroy(self, request, *args, **kwargs):
