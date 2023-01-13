@@ -26,20 +26,3 @@ class Studentserializer(serializers.ModelSerializer):
         user= self.context["request"].user
         student = Student.objects.create(**validated_data,user=user)
         return student
-
-'''
- ["id",
-        "name",
-        "phone",
-        "parent",
-        "birth",
-        "added",
-        "language",
-        "address",
-        "email",
-        "one_id",
-        "user",
-        "groups",
-        "classroom",
-        "course",
-        'davomat']'''

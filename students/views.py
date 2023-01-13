@@ -10,6 +10,7 @@ import codecs
 import csv
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
+from datetime import datetime
 fs = FileSystemStorage(location='tmp/')
 from rest_framework.decorators import action
 class TestViewset(ModelViewSet):
@@ -78,17 +79,42 @@ class TestViewset(ModelViewSet):
 class StudentViewset(ModelViewSet):
     queryset =Student.objects.all()
     serializer_class = Studentserializer
-    # authentication_classes = [TokenAuthentication]
     permission_classes = [IsManagerandDirectorOrReadOnly]
-
     def get_serializer_context(self):
-        # this is the trick since you want to pass the request object to your serializer
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
-
-
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer
-    # permission_classes = [IsManagerandDirectorOrReadOnly]
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        try:
+            student = Student.objects.get(id=data['student'])
+            davomat = Davomat.objects.create(student=student,description=data.get('description',None),status=data.get('status',None),date=data.get('date',datetime.now()))
+            serializer = Davomatserializer(davomat)
+            return Response(serializer.data)
+        except Student.DoesNotExist:
+            return Response('Student not found')
+    def partial_update(self, request, *args, **kwargs):
+        davomat_data = self.get_object()
+        data = request.data
+        if 'student' in data:
+            try:
+                student = Student.objects.get(id=data['student'])
+                davomat_data.student = data.get(student,davomat_data.student)
+                davomat_data.description = data.get(data['description'],davomat_data.description)
+                davomat_data.status = data.get(data['status'],davomat_data.status)
+                davomat_data.date = data.get(data['date'],davomat_data.date)
+                serializer = Davomatserializer(davomat_data)
+                return Response(serializer.data)
+            except Student.DoesNotExist:
+                return Response('Student not found')
+        else:
+            return Response('student field required')
+            
+            
+            
+            
+        
+        

@@ -4,6 +4,7 @@ from center.models import User
 from django.utils.html import format_html
 from datetime import datetime
 # Create your models here.
+from datetime import datetime
 class Student(models.Model):
     class Languages(models.TextChoices):
         UZBEK = "uzbek","O'zbekcha"
@@ -38,7 +39,7 @@ class Student(models.Model):
 class Davomat(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE,related_name='davomat',to_field='phone')
     status = models.BooleanField(default=True)
-    date = models.DateTimeField(unique=True)
+    date = models.DateTimeField(unique=True,default=datetime.now())
     description = models.TextField(default="Sabab ko'rsatilmagan")
 
     def __str__(self):
