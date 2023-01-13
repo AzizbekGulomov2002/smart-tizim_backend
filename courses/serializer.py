@@ -1,6 +1,7 @@
 from rest_framework import serializers,status
 from .models import *
 from rest_framework.response import Response
+from center.serializer import *
 from students.models import Student
 from students.serializer import Studentserializer
 class CourseSerializer(serializers.ModelSerializer):
@@ -18,4 +19,5 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Groups
         fields = '__all__'
+        depth=1
     

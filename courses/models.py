@@ -27,12 +27,16 @@ class Groups(models.Model):
     class Education(models.TextChoices):
         ONLINE = 'online','Online'
         OFFLINE = 'offline','Offline'
+    class Day(models.TextChoices):
+        juftkunlar = 'juft','Juft kunlar'
+        OFFLINE = 'toq','Toq kunlar'
     class Status(models.TextChoices):
         ACTIVE = 'active','Active'
         WAITING = 'waiting','Waiting'
     name = models.CharField(max_length=100,verbose_name=_("Group name"))
     course = models.ManyToManyField(Course)
     education = models.CharField(max_length=10,choices=Education.choices,null=True,blank=True)
+    day = models.CharField(max_length=10,choices=Day.choices,null=True,blank=True)
     student = models.ManyToManyField(Student)
     room =models.ManyToManyField(Room)
     status = models.CharField(max_length=10,choices=Status.choices,null=True,blank=True)
