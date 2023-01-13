@@ -10,6 +10,7 @@ class Davomatserializer(serializers.ModelSerializer):
     class Meta:
         model = Davomat
         fields = '__all__'
+        depth=1
 class Studentserializer(serializers.ModelSerializer):
     davomat =Davomatserializer(many=True,read_only=True)
     last_payment = serializers.SerializerMethodField()

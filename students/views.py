@@ -102,19 +102,18 @@ class DavomatViewset(ModelViewSet):
         if 'student' in data:
             try:
                 student = Student.objects.get(id=data['student'])
-                davomat_data.student = data.get(student,davomat_data.student)
-                davomat_data.description = data.get(data['description'],davomat_data.description)
-                davomat_data.status = data.get(data['status'],davomat_data.status)
-                davomat_data.date = data.get(data['date'],davomat_data.date)
+                davomat_data.student =student
+                davomat_data.description = data.get('description',davomat_data.description)
+                davomat_data.status = data.get('status',davomat_data.status)
+                davomat_data.date = data.get('date',davomat_data.date)
                 serializer = Davomatserializer(davomat_data)
                 return Response(serializer.data)
             except Student.DoesNotExist:
                 return Response('Student not found')
         else:
             return Response('student field required')
-            
-            
-            
+    def update(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
             
         
         
