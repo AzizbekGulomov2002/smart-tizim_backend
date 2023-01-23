@@ -25,7 +25,6 @@ class TestViewset(ModelViewSet):
             "_tmp.csv", file_content
         )
         tmp_file = fs.path(file_name)
-
         csv_file = open(tmp_file, errors="ignore")
         reader = csv.reader(csv_file)
         next(reader)
@@ -72,9 +71,7 @@ class TestViewset(ModelViewSet):
 
                 )
             )
-
         Test.objects.bulk_create(results_list)
-
         return Response("Successfully upload the data")
 class StudentViewset(ModelViewSet):
     queryset =Student.objects.all()
@@ -89,31 +86,35 @@ class DavomatViewset(ModelViewSet):
     serializer_class = Davomatserializer
     def create(self, request, *args, **kwargs):
         data = request.data
-        try:
-            student = Student.objects.get(id=data['student'])
-            davomat = Davomat.objects.create(student=student,description=data.get('description',None),status=data.get('status',None),date=data.get('date',datetime.now()))
-            serializer = Davomatserializer(davomat)
-            return Response(serializer.data)
-        except Student.DoesNotExist:
-            return Response('Student not found')
+        if 'students' in data:
+            for student in data['students']:
+                try:
+                    talaba = Student.objects.get(id=student['id'])
+                    print(talaba.name)
+                    Davomat.objects.create(student=talaba,status=student.get('status',True),description=student.get('description',"Sabab ko'rsatilmagan"))
+                except Student.DoesNotExist:
+                    pass
+            return Response("Davomat olindi!")
+        else:
+            return Response("Student Doesn't Found")
     def partial_update(self, request, *args, **kwargs):
         davomat_data = self.get_object()
         data = request.data
-        if 'student' in data:
-            try:
-                student = Student.objects.get(id=data['student'])
-                davomat_data.student =student
-                davomat_data.description = data.get('description',davomat_data.description)
-                davomat_data.status = data.get('status',davomat_data.status)
-                davomat_data.date = data.get('date',davomat_data.date)
-                serializer = Davomatserializer(davomat_data)
-                return Response(serializer.data)
-            except Student.DoesNotExist:
-                return Response('Student not found')
+        if 'students' in data:
+           for student in data['students']:
+                try:
+                    student = Student.objects.get(id=student['id'])
+                    davomat_data.student =student
+                    davomat_data.description = student.get('description',davomat_data.description)
+                    davomat_data.status = student.get('status',davomat_data.status)
+                    davomat_data.date = student.get('date',davomat_data.date)
+                    serializer = Davomatserializer(davomat_data)
+                    return Response(serializer.data)
+                except Student.DoesNotExist:
+                    return Response("Student Doesn't Found")
         else:
-            return Response('student field required')
+            return Response('Student field required')
     def update(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-            
         
         

@@ -15,6 +15,7 @@ router.register('groups',GroupsViewset)
 router.register('test',TestViewset)
 router.register('davomat',DavomatViewset)
 router.register('payment',StudentPaymentViewset)
+router.register('classroom',ClassRoomViewset)
 urlpatterns = [
     path('',include(router.urls))
 ]
