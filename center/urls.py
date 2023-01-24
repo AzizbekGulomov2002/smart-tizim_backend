@@ -3,7 +3,7 @@ from django.urls import path,include
 from .views import  *
 from students.views import *
 from courses.views import *
-from payment.views import StudentPaymentViewset
+from payment.views import *
 router = DefaultRouter()
 router.register('director',DirectorViewset)
 router.register('manager',ManagerViewset)
@@ -16,6 +16,7 @@ router.register('test',TestViewset)
 router.register('davomat',DavomatViewset)
 router.register('payment',StudentPaymentViewset)
 router.register('classroom',ClassRoomViewset)
+router.register('paymentinfo',PaymentViewset)
 urlpatterns = [
     path('',include(router.urls))
 ]
