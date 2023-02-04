@@ -91,7 +91,7 @@ class DavomatViewset(ModelViewSet):
                 try:
                     talaba = Student.objects.get(id=student['id'])
                     print(talaba.name)
-                    Davomat.objects.create(student=talaba,status=student['status'],description=student.get('description','Sabab korsatilmagan'))
+                    Davomat.objects.create(student=talaba,status=student.get('status',True),description=student.get('description','Sabab korsatilmagan'))
                 except Student.DoesNotExist:
                     pass
             return Response("Davomat olindi!")

@@ -39,7 +39,7 @@ class Student(models.Model):
 class Davomat(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE,related_name='davomat',to_field='phone')
     status = models.BooleanField(default=True)
-    date = models.DateTimeField(unique=True,default=datetime.now())
+    date = models.DateTimeField(default=datetime.now())
     description = models.TextField(default="Sabab ko'rsatilmagan")
 
     def __str__(self):
