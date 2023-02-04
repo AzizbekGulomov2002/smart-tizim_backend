@@ -79,9 +79,10 @@ class StudentViewset(ModelViewSet):
     permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
-        student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user)
-        serializer = Studentserializer(student,many=True)
-        return Response('Added')
+        student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user,parent=data.get('parent',None),birth=data.get('birth',None),added=data.get('added',None),father_name=data.get('father_name'),mother_name=data.get('mother_name',None),language=data.get('language',None),address=data.get('address',None),email=data.get('email',None))
+        serializer = Studentserializer(student)
+        return Response(serializer.data)
+        
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer
