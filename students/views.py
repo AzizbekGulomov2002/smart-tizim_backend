@@ -82,7 +82,22 @@ class StudentViewset(ModelViewSet):
         student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user,parent=data.get('parent',None),birth=data.get('birth',None),added=data.get('added',None),father_name=data.get('father_name'),mother_name=data.get('mother_name',None),language=data.get('language',None),address=data.get('address',None),email=data.get('email',None))
         serializer = Studentserializer(student)
         return Response(serializer.data)
-        
+    def update(self, request, *args, **kwargs):
+        student_object = self.get_object()
+        data = request.data
+        student_object.name = data.get('name',student_object.name)  
+        student_object.birth = data.get('birth',student_object.birth)
+        student_object.parent = data.get('parent',student_object.parent)
+        student_object.address = data.get('address',student_object.address)
+        student_object.email = data.get('email',student_object.email)
+        student_object.father_name = data.get('father_name',student_object.father_name)
+        student_object.mother_name = data.get('mother_name',student_object.mother_name)
+        student_object.language = data.get('language',student_object.language)
+        serializer = Studentserializer(student_object)
+        return Response('Changed')
+    def partial_update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+                  
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer
