@@ -77,10 +77,11 @@ class StudentViewset(ModelViewSet):
     queryset =Student.objects.all()
     serializer_class = Studentserializer
     permission_classes = [IsManagerandDirectorOrReadOnly]
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({"request": self.request})
-        return context
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user)
+        serializer = Studentserializer(student,many=True)
+        return Response('Added')
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer
