@@ -91,12 +91,12 @@ class DavomatViewset(ModelViewSet):
                 try:
                     talaba = Student.objects.get(id=student['id'])
                     print(talaba.name)
-                    Davomat.objects.create(student=talaba,status=student.get('status',True),description=student.get('description',"Sabab ko'rsatilmagan"))
+                    Davomat.objects.create(student=talaba,status=student['status'],description=student.get('description','Sabab korsatilmagan'))
                 except Student.DoesNotExist:
                     pass
             return Response("Davomat olindi!")
         else:
-            return Response("Student Doesn't Found")
+            return Response('Student Doesnt Found')
     def partial_update(self, request, *args, **kwargs):
         davomat_data = self.get_object()
         data = request.data
@@ -111,10 +111,9 @@ class DavomatViewset(ModelViewSet):
                     serializer = Davomatserializer(davomat_data)
                     return Response(serializer.data)
                 except Student.DoesNotExist:
-                    return Response("Student Doesn't Found")
+                    return Response('Student not found')
         else:
-            return Response('Student field required')
+            return Response('student field required')
     def update(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-        
         
