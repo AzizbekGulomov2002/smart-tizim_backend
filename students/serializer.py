@@ -22,8 +22,3 @@ class Studentserializer(serializers.ModelSerializer):
         fields ="__all__"
         read_only_fields = ['id', 'user']
         depth=1
-
-    def create(self, validated_data):
-        user= self.context["request"].user
-        student = Student.objects.create(**validated_data,user=user)
-        return student
