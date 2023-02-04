@@ -142,8 +142,8 @@ class GroupsViewset(ModelViewSet):
         serializer = GroupSerializer(group_object)
         return Response(serializer.data)     
 class ClassRoomViewset(ModelViewSet):
-    queryset =  Groups.objects.all()
-    serializer_class = GroupSerializer
+    queryset =  ClassRoom.objects.all()
+    serializer_class = ClassRoomSerializer
     permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
