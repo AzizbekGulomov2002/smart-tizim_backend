@@ -17,3 +17,4 @@ class GroupsAdmin(admin.ModelAdmin):
     list_display = ['name','education','status','start','finish']
     list_filter = ['status','education','start','finish']
     search_fields = ['name','course']
+admin.site.register(ClassRoom)

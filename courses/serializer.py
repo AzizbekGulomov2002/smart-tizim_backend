@@ -25,18 +25,16 @@ class RoomSerializer(serializers.ModelSerializer):
         read_only_fields = ['id','groups_count']
 class GroupSerializer(serializers.ModelSerializer):
     student = Studentserializer(many=True,read_only=True)
-    course = CourseSerializer(many=True,read_only=True)
-    room = RoomSerializer(many=True,read_only=True)
+    # course = CourseSerializer(many=True,read_only=True)
+    # room = RoomSerializer(many=True,read_only=True)
     class Meta:
         model = Groups
         fields = '__all__'
         depth=1
 class ClassRoomSerializer(serializers.ModelSerializer):
     student = Studentserializer(many=True,read_only=True)
-    course = CourseSerializer(many=True,read_only=True)
-    room = RoomSerializer(many=True,read_only=True)
     class Meta:
-        model = Groups
+        model = ClassRoom
         fields = '__all__'
         depth=1
     
