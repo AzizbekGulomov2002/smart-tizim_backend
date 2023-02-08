@@ -27,6 +27,10 @@ class GroupSerializer(serializers.ModelSerializer):
     student = Studentserializer(many=True,read_only=True)
     # course = CourseSerializer(many=True,read_only=True)
     # room = RoomSerializer(many=True,read_only=True)
+    continue_time = serializers.SerializerMethodField()
+
+    def get_continue_time(self, obj):
+        return (obj.finish - obj.start).days
     class Meta:
         model = Groups
         fields = '__all__'
