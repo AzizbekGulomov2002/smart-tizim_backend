@@ -170,23 +170,22 @@ class ClassRoomViewset(ModelViewSet):
         return Response(serializer.data)
     def update(self, request, *args, **kwargs):
         return self.partial_update(request,*args,**kwargs)
-    def destroy(self, request, *args, **kwargs):
-        group_object = self.get_object()
-        data = request.data
-        if 'id' in data:
-            ClassRoom.objects.filter(id=data['id']).delete()
-            return Response('Class Deleted!')
-        else:
-            if 'students' in data:
-                for student in data['students']:
-                    try:
-                        talaba = Student.objects.get(id=student['id'])
-                        group_object.student.remove(talaba)
-                    except Student.DoesNotExist:
-                        pass
-
-            serializer = ClassRoomSerializer(group_object)
-            return Response(serializer.data)
+    # def destroy(self, request, *args, **kwargs):
+    #     group_object = self.get_object()
+    #     data = request.data
+    #     if 'id' in data:
+    #         ClassRoom.objects.filter(id=data['id']).delete()
+    #         return Response('Class Deleted!')
+    #     else:
+    #         if 'students' in data:
+    #             for student in data['students']:
+    #                 try:
+    #                     talaba = Student.objects.get(id=student['id'])
+    #                     group_object.student.remove(talaba)
+    #                 except Student.DoesNotExist:
+    #                     pass
+    #         serializer = ClassRoomSerializer(group_object)
+    #         return Response(serializer.data)
                 
         
                 
