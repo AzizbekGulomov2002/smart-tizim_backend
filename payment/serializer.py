@@ -3,7 +3,7 @@ from .models import StudentPayment
 class StudentPaymentSerializer(serializers.ModelSerializer):
     sana =  serializers.SerializerMethodField()
     def get_sana(self,obj):
-        return (obj.date).strftime('%d %b, %Y')
+        return (obj.date).strftime('%m/%d/%Y')
     class Meta:
         model = StudentPayment
         fields = '__all__'
