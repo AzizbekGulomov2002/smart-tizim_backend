@@ -40,11 +40,3 @@ class StudentPaymentViewset(ModelViewSet):
         payment_date = self.get_object()
         payment_date.delate()
         return Response({'status':'deleted'})
-class PaymentViewset(ModelViewSet):
-    queryset =  StudentPayment.objects.all()
-    serializer_class =  StudentPaymentSerializer
-    def list(self, request, *args, **kwargs):
-        user = request.user
-        objects = StudentPayment.objects.filter(user=user)
-        serializer = StudentPaymentSerializer(objects,many=True)
-        return Response(serializer.data)
