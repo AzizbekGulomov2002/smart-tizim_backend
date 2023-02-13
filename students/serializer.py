@@ -2,6 +2,7 @@ from rest_framework import serializers,fields
 from .models import Student,Davomat,Test
 from center.serializer import ManagerSerializer
 from center.models import User
+from payment.serializer import StudentPaymentSerializer
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Test
@@ -14,6 +15,7 @@ class Davomatserializer(serializers.ModelSerializer):
 class Studentserializer(serializers.ModelSerializer):
     davomat =Davomatserializer(many=True,read_only=True)
     last_payment = serializers.SerializerMethodField()
+    payment = StudentPaymentSerializer(many=True,read_only=True)
     def get_last_payment(self, obj):
         return obj.tolov
     class Meta:
