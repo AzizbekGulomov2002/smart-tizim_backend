@@ -20,7 +20,7 @@ class Student(models.Model):
     mother_name = models.CharField(max_length=600, null=True, blank=True)
     language = models.CharField(max_length=15,choices=Languages.choices,verbose_name=_("Language"),help_text=_("Enter language"),null=True,blank=True)
     address = models.CharField(max_length=100,help_text=_("Enter address"),verbose_name=_("Address"),null=True,blank=True)
-    email = models.EmailField(unique=True,null=True,blank=True)
+    email = models.EmailField(null=True,blank=True)
     def __str__(self):
         return self.name
     @property
