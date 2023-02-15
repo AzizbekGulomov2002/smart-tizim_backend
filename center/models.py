@@ -8,6 +8,9 @@ class User(AbstractUser,PermissionsMixin):
         DIRECTOR = "DIRECTOR",'director'
         MANAGER = "MANAGER","manager"
         TEACHER = "TEACHER",'teacher'
+
+    subject = models.CharField(max_length=150, verbose_name="Subject", null=True, blank=True)
+    description = models.TextField(verbose_name='Description', null=True, blank=True)
     role = models.CharField(max_length=15,choices=Role.choices,null=True,blank=True)
     class Meta:
         db_table = "User"
@@ -79,6 +82,7 @@ class Manager(User):
     objects = ManagerManager()
 class Teacher(User):
     base_role = User.Role.TEACHER
+
     class Meta:
         proxy = True
     def save(self,*args,**kwargs):

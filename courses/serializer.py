@@ -3,7 +3,7 @@ from .models import *
 from rest_framework.response import Response
 from center.serializer import *
 from students.models import Student
-from students.serializer import Studentserializer
+# from students.serializer import StudentSerializer
 class CourseSerializer(serializers.ModelSerializer):
     students_count= serializers.SerializerMethodField()
     groups_count = serializers.SerializerMethodField()
@@ -24,9 +24,7 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = ['id','name','student_count','groups_count']
         read_only_fields = ['id','groups_count']
 class GroupSerializer(serializers.ModelSerializer):
-    student = Studentserializer(many=True,read_only=True)
     continue_time = serializers.SerializerMethodField()
-
     def get_continue_time(self, obj):
         return (obj.finish - obj.start).days
     class Meta:
@@ -34,7 +32,6 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth=1
 class ClassRoomSerializer(serializers.ModelSerializer):
-    student = Studentserializer(many=True,read_only=True)
     class Meta:
         model = ClassRoom
         fields = '__all__'

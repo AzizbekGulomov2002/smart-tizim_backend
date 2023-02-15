@@ -137,7 +137,7 @@ class GroupsViewset(ModelViewSet):
             return Response(serializer.data)
 
 class ClassRoomViewset(ModelViewSet):
-    queryset =  ClassRoom.objects.all()
+    queryset=ClassRoom.objects.all()
     serializer_class = ClassRoomSerializer
     permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
@@ -153,25 +153,24 @@ class ClassRoomViewset(ModelViewSet):
                     pass
         serializer = ClassRoomSerializer(group)
         return Response(serializer.data)
-
     def partial_update(self, request, *args, **kwargs):
-        group_object = self.get_object()
+        class_object = self.get_object()
         data = request.data
         if 'students' in data:
             for student in data['students']:
                 try:
                     talaba = Student.objects.get(id=student['id'])
-                    group_object.student.add(talaba)
+                    class_object.student.add(talaba)
                 except Student.DoesNotExist:
                     pass
-        group_object.name = data.get('name',group_object.name)
-        group_object.user=data.get(request.user,group_object.user)
-        serializer = ClassRoomSerializer(group_object)
+        class_object.name = data.get('name',class_object.name)
+        class_object.user=data.get(request.user,class_object.user)
+        serializer = ClassRoomSerializer(class_object)
         return Response(serializer.data)
     def update(self, request, *args, **kwargs):
         return self.partial_update(request,*args,**kwargs)
     def destroy(self, request, *args, **kwargs):
-        group_object = self.get_object()
+        class_object = self.get_object()
         data = request.data
         if 'id' in data:
             ClassRoom.objects.filter(id=data['id']).delete()
@@ -181,10 +180,10 @@ class ClassRoomViewset(ModelViewSet):
                 for student in data['students']:
                     try:
                         talaba = Student.objects.get(id=student['id'])
-                        group_object.student.remove(talaba)
+                        class_object.student.remove(talaba)
                     except Student.DoesNotExist:
                         pass
-            serializer = ClassRoomSerializer(group_object)
+            serializer = ClassRoomSerializer(class_object)
             return Response(serializer.data)
                 
         

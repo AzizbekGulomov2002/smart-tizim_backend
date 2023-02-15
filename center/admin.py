@@ -26,5 +26,7 @@ admin.site.register(Manager,ManagerAdmin)
 class TeacherAdmin(UserAdmin):
     model = Teacher
     add_form =TeacherForm
+    form = TeacherForm
+
 admin.site.register(Teacher,TeacherAdmin)
 

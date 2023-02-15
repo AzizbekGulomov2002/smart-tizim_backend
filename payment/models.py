@@ -1,6 +1,5 @@
 from django.db import models
 from students.models import Student
-# Create your models here.
 from center.models import User
 class StudentPayment(models.Model):
     student = models.ForeignKey(Student,on_delete=models.SET_NULL,null=True,blank=True,related_name='payment')

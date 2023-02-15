@@ -58,7 +58,7 @@ class Groups(models.Model):
     course = models.ForeignKey(Course,related_name='groups',on_delete=models.SET_NULL,null=True,blank=True)
     education = models.CharField(max_length=10,choices=Education.choices,null=True,blank=True)
     day = models.CharField(max_length=10,choices=Day.choices,null=True,blank=True)
-    student = models.ManyToManyField(Student)
+    student = models.ManyToManyField(Student,related_name='groups')
     room =models.ForeignKey(Room,related_name='groups',on_delete=models.SET_NULL,null=True,blank=True)
     teacher = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True,blank=True,related_name='teacher')
     status = models.CharField(max_length=10,choices=Status.choices,null=True,blank=True)
@@ -76,7 +76,7 @@ class Groups(models.Model):
     
 class ClassRoom(models.Model):
     name = models.CharField(max_length=100)
-    student = models.ManyToManyField(Student)
+    student = models.ManyToManyField(Student,related_name='classes')
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True,related_name='classuser')
     def __str__(self):
         return self.name

@@ -75,12 +75,12 @@ class TestViewset(ModelViewSet):
         return Response("Successfully upload the data")
 class StudentViewset(ModelViewSet):
     queryset =Student.objects.all()
-    serializer_class = Studentserializer
+    serializer_class = StudentSerializer
     permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
         student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user,parent=data.get('parent',None),birth=data.get('birth',None),added=data.get('added',None),father_name=data.get('father_name'),mother_name=data.get('mother_name',None),language=data.get('language',None),address=data.get('address',None),email=data.get('email',None))
-        serializer = Studentserializer(student)
+        serializer = StudentSerializer(student)
         return Response(serializer.data)
     def update(self, request, *args, **kwargs):
         student_object = self.get_object()
@@ -93,7 +93,7 @@ class StudentViewset(ModelViewSet):
         student_object.father_name = data.get('father_name',student_object.father_name)
         student_object.mother_name = data.get('mother_name',student_object.mother_name)
         student_object.language = data.get('language',student_object.language)
-        serializer = Studentserializer(student_object)
+        serializer = StudentSerializer(student_object)
         return Response('Changed')
     def partial_update(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
