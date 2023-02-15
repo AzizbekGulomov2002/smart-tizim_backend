@@ -21,5 +21,5 @@ class Studentserializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields ="__all__"
-        read_only_fields = ['id', 'user']
+        read_only_fields = ['id', 'user','payment']
         depth=1
