@@ -6,9 +6,6 @@ from django.contrib.auth.admin import UserAdmin
 class MyAdmin(UserAdmin):
     list_filter = ['role','is_active','is_staff','is_superuser']
     list_display = ['role','username','email','is_staff','is_superuser']
-    # fieldsets =  (
-    #     ('Permissions', {'fields': ('groups',)}),
-    # )
 admin.site.register(User,MyAdmin)
 class DirectorAdmin(UserAdmin):
     list_filter = ['role','is_active']

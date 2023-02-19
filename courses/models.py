@@ -1,5 +1,6 @@
 from django.db import models
 # Create your models here.
+from multiselectfield import MultiSelectField
 from django.utils.translation import gettext_lazy as _
 from students.models import Student
 from center.models import Teacher
@@ -48,16 +49,23 @@ class Groups(models.Model):
     class Education(models.TextChoices):
         ONLINE = 'online','Online'
         OFFLINE = 'offline','Offline'
-    class Day(models.TextChoices):
-        juftkunlar = 'juft','Juft kunlar'
-        toqkunlar = 'toq','Toq kunlar'
+    day = (
+        # ('Sun','Sun'),
+        ('Mon','Mon'),
+        ('Tue','Tue'),
+        ('Wed','Wed'),
+        ('Thu','Thu'),
+        ('Fri','Fri'),
+        ('Sat','Sat'),
+        ('Sun','Sun')
+    )
     class Status(models.TextChoices):
         ACTIVE = 'active','Active'
         WAITING = 'waiting','Waiting'
     name = models.CharField(max_length=100,verbose_name=_("Group name"))
     course = models.ForeignKey(Course,related_name='groups',on_delete=models.SET_NULL,null=True,blank=True)
     education = models.CharField(max_length=10,choices=Education.choices,null=True,blank=True)
-    day = models.CharField(max_length=10,choices=Day.choices,null=True,blank=True)
+    day =  MultiSelectField(max_length=100,choices=day,null=True,blank=True)
     student = models.ManyToManyField(Student,related_name='groups')
     room =models.ForeignKey(Room,related_name='groups',on_delete=models.SET_NULL,null=True,blank=True)
     teacher = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True,blank=True,related_name='teacher')
