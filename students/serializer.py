@@ -15,7 +15,7 @@ class Davomatserializer(serializers.ModelSerializer):
         depth=1
 class StudentSerializer(serializers.ModelSerializer):
     davomat =Davomatserializer(many=True,read_only=True)
-    last_payment = serializers.SerializerMethodField()
+    # last_payment = serializers.SerializerMethodField()
     payment = StudentPaymentSerializer(many=True,read_only=True)
     groups = GroupSerializer(many=True,read_only=True)
     classes = ClassRoomSerializer(many=True,read_only=True)
@@ -24,4 +24,4 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields ="__all__"
-        read_only_fields = ['id', 'user','payment','groups','classes','last_payment']
+        read_only_fields = ['id', 'user','payment','groups','classes']
