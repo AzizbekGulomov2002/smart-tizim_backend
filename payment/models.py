@@ -1,8 +1,10 @@
 from django.db import models
 from students.models import Student
 from center.models import User
+from courses.models import Groups
 class StudentPayment(models.Model):
     student = models.ForeignKey(Student,on_delete=models.SET_NULL,null=True,blank=True,related_name='payment')
+    group = models.ForeignKey(Groups,on_delete=models.SET_NULL,null=True,blank=True)
     payment_type = (
         ('naqd',"Naqd"),
         ('plastik karta','Plastik karta'),
