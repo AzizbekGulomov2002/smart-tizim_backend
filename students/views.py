@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
-
+from courses.models import Groups
+import json
+from payment.models import StudentPayment
 from courses.permissions import IsManagerandDirectorOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -138,4 +140,22 @@ class DavomatViewset(ModelViewSet):
             return Response('student field required')
     def update(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-        
+class StudentPaymentInfo(APIView):
+    def get(self,request,pk):
+        payments = []
+        student  = Student.objects.get(id=pk)
+        payment_students =StudentPayment.objects.filter(student=student)
+        for group in student.groups.all():
+            payment =payment_students.filter(group=Groups.objects.get(id=group.id)).last()
+            if payment is not None:
+                info ={}
+                info['id'] = payment.id
+                info['student_id'] = payment.student.id
+                info['student_name']=payment.student.name
+                info['cost'] = payment.cost
+                info['date'] = payment.date
+                info ['group'] = payment.group.name
+                info['user'] = payment.user.username 
+                payments.append(info)
+        return Response(payments,status=status.HTTP_200_OK)
+          
