@@ -18,10 +18,11 @@ class RoomViewset(ModelViewSet):
 class GroupsViewset(ModelViewSet):
     queryset =  Groups.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [IsManagerandDirectorOrReadOnly]
+    # permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
-        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user)
+        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
+        
         group.save()
         if 'teacher' in data:
                 teachers = data['teacher']
@@ -88,9 +89,11 @@ class GroupsViewset(ModelViewSet):
         group_object.status=data.get('status',group_object.status)
         group_object.start=data.get('start',group_object.start)
         group_object.finish=data.get('finish',group_object.finish)
+        group_object.day = data.get('day',group_object.day)
         group_object.start_lesson = data.get('start_lesson', group_object.start_lesson)
         group_object.finish_lesson = data.get('finish_lesson', group_object.finish_lesson)
         group_object.user=data.get(request.user,group_object.user)
+        group_object.save()
         serializer = GroupSerializer(group_object)
         return Response(serializer.data)
     def update(self, request, *args, **kwargs):
@@ -130,7 +133,7 @@ class GroupsViewset(ModelViewSet):
                         group_object.student.remove(xona)
                     except Student.DoesNotExist:
                         pass
-
+            group_object.save()
             serializer = GroupSerializer(group_object)
             return Response(serializer.data)
 
@@ -163,6 +166,7 @@ class ClassRoomViewset(ModelViewSet):
                     pass
         class_object.name = data.get('name',class_object.name)
         class_object.user=data.get(request.user,class_object.user)
+        class_object.save()
         serializer = ClassRoomSerializer(class_object)
         return Response(serializer.data)
     def update(self, request, *args, **kwargs):
@@ -181,6 +185,7 @@ class ClassRoomViewset(ModelViewSet):
                         class_object.student.remove(talaba)
                     except Student.DoesNotExist:
                         pass
+            class_object.save()
             serializer = ClassRoomSerializer(class_object)
             return Response(serializer.data)
                 
