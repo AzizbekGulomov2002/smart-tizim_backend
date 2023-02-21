@@ -280,7 +280,8 @@ JAZZMIN_SETTINGS = {
         'courses.Course':'fas fa-book-open',
         'courses.Room':'fas fa-building',
         'courses.Groups':'fas fa-users',
-        "payment.StudentPayment":"fas fa-money-check"
+        "payment.StudentPayment":"fas fa-money-check",
+        'courses.ClassRoom':'fas fa-chalkboard'
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
