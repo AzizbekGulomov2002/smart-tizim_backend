@@ -5,11 +5,11 @@ from students.views import *
 from courses.views import *
 from payment.views import *
 router = DefaultRouter()
-router.register('director',DirectorViewset)
+router.register('director',DirectorViewset,basename='director')
 router.register('manager',ManagerViewset)
 router.register('teacher',TeacherViewset)
-router.register('students',StudentViewset)
 router.register('course',CourseViewset)
+router.register('students',StudentViewset,basename='students')
 router.register('rooms',RoomViewset)
 router.register('groups',GroupsViewset)
 router.register('test',TestViewset)
@@ -17,5 +17,7 @@ router.register('davomat',DavomatViewset)
 router.register('payment',StudentPaymentViewset)
 router.register('classroom',ClassRoomViewset)
 urlpatterns = [
-    path('',include(router.urls))
+    path('',include(router.urls)),
+   
+
 ]

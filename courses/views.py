@@ -53,8 +53,6 @@ class GroupsViewset(ModelViewSet):
                     pass
         serializer = GroupSerializer(group)
         return Response(serializer.data)
-
-
     def partial_update(self, request, *args, **kwargs):
         group_object = self.get_object()
         data = request.data

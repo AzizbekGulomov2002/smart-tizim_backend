@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.views import APIView
+
 from courses.permissions import IsManagerandDirectorOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -6,6 +9,7 @@ from .models import *
 from .serializer import *
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.generics import *
 import codecs
 import csv
 from django.core.files.base import ContentFile
@@ -73,10 +77,10 @@ class TestViewset(ModelViewSet):
             )
         Test.objects.bulk_create(results_list)
         return Response("Successfully upload the data")
+
 class StudentViewset(ModelViewSet):
     queryset =Student.objects.all()
     serializer_class = StudentSerializer
-    permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
         student = Student.objects.create(name=data['name'],phone=data['phone'],user=request.user,parent=data.get('parent',None),birth=data.get('birth',None),added=data.get('added',None),father_name=data.get('father_name'),mother_name=data.get('mother_name',None),language=data.get('language',None),address=data.get('address',None),email=data.get('email',None))
@@ -93,11 +97,12 @@ class StudentViewset(ModelViewSet):
         student_object.father_name = data.get('father_name',student_object.father_name)
         student_object.mother_name = data.get('mother_name',student_object.mother_name)
         student_object.language = data.get('language',student_object.language)
+        student_object.save()
         serializer = StudentSerializer(student_object)
-        return Response('Changed')
+        return Response(serializer.data)
     def partial_update(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-                  
+    
 class DavomatViewset(ModelViewSet):
     queryset =  Davomat.objects.all()
     serializer_class = Davomatserializer
