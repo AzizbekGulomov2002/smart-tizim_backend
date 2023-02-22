@@ -18,7 +18,8 @@ router.register('payment',StudentPaymentViewset)
 router.register('classroom',ClassRoomViewset)
 urlpatterns = [
     path('',include(router.urls)),
-    path('info/<int:pk>/',StudentPaymentInfo.as_view())
+    path('info/<int:pk>/',StudentPaymentInfo.as_view()),
+    path('paymenttype/',PaymentAbout.as_view())
    
 
 ]

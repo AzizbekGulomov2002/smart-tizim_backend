@@ -1,6 +1,8 @@
 from django.shortcuts import render
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from django.db.models import Sum
 from .models import *
 from .serializer import StudentPaymentSerializer
 from rest_framework.response import Response
@@ -40,3 +42,7 @@ class StudentPaymentViewset(ModelViewSet):
         payment_date = self.get_object()
         payment_date.delate()
         return Response({'status':'deleted'})
+class PaymentAbout(APIView):
+    def get(self,request):
+        values = list(StudentPayment.objects.values('type').annotate(sum=Sum('cost')))
+        return Response(values)

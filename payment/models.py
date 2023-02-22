@@ -7,10 +7,8 @@ class StudentPayment(models.Model):
     group = models.ForeignKey(Groups,on_delete=models.SET_NULL,null=True,blank=True)
     payment_type = (
         ('naqd',"Naqd"),
-        ('plastik karta','Plastik karta'),
-        ('click','Click'),
-        ("pul ko'chirish","Pul ko'chirish"),
-        ('boshqa','Boshqa')
+        ('karta','Karta'),
+        ("ko'chirma","Ko'chirma")
     )
     cost = models.CharField(max_length=1000,null=True,blank=True)
     type = models.CharField(max_length=55,choices=payment_type,null=True,blank=True)
@@ -18,6 +16,6 @@ class StudentPayment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True,blank=True)
     def __str__(self):
-        return f"{self.student.name} {self.cost} to'lov qildi!"
+        return f"{self.cost} to'lov qildi!"
 
 
