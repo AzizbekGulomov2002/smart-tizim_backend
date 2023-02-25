@@ -41,8 +41,8 @@ class GroupsViewset(ModelViewSet):
         if 'course' in data:
                 course = data['course']
                 try:
-                    xona = Course.objects.get(id=course['id'])
-                    group.course.add(xona)
+                    courses = Course.objects.get(id=course['id'])
+                    group.course.add(courses)
                 except Course.DoesNotExist:
                     pass
         if 'students' in data:
