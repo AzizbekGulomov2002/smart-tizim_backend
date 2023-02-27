@@ -51,6 +51,7 @@ class GroupsViewset(ModelViewSet):
                     group.student.add(xona)
                 except Student.DoesNotExist:
                     pass
+        group.save()
         serializer = GroupSerializer(group)
         return Response(serializer.data)
     def partial_update(self, request, *args, **kwargs):
