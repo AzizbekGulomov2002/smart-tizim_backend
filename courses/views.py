@@ -21,25 +21,27 @@ class GroupsViewset(ModelViewSet):
     # permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
+        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
+        group.save()
         if 'teacher' in data:
                 teachers = data['teacher']
                 try:
                     teacher = Teacher.objects.get(id=teachers)
-                    group.teacher.add(teacher)
+                    group.teacher = teacher
                 except Teacher.DoesNotExist:
                     pass
         if 'room' in data:
                 room = data['room']
                 try:
                     xona = Room.objects.get(id=room)
-                    group.room.add(xona)
+                    group.room = xona
                 except Room.DoesNotExist:
                     pass
         if 'course' in data:
                 course = data['course']
                 try:
                     courses = Course.objects.get(id=course)
-                    group.course.add(courses)
+                    group.course = courses
                 except Course.DoesNotExist:
                     pass
         if 'students' in data:
@@ -49,9 +51,6 @@ class GroupsViewset(ModelViewSet):
                     group.student.add(xona)
                 except Student.DoesNotExist:
                     pass
-        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
-        group.save()
-       
         serializer = GroupSerializer(group)
         return Response(serializer.data)
     def partial_update(self, request, *args, **kwargs):
@@ -61,21 +60,21 @@ class GroupsViewset(ModelViewSet):
                 teachers = data['teacher']
                 try:
                     teacher = Teacher.objects.get(id=teachers)
-                    group_object.teacher.add(teacher)
+                    group_object.teacher= teacher
                 except Teacher.DoesNotExist:
                     pass
         if 'room' in data:
                 room = data['room']
                 try:
                     xona = Room.objects.get(id=room)
-                    group_object.room.add(xona)
+                    group_object.room = xona
                 except Room.DoesNotExist:
                     pass
         if 'course' in data:
                 course = data['course']
                 try:
-                    xona = Course.objects.get(id=course)
-                    group_object.course.add(xona)
+                    courses = Course.objects.get(id=course)
+                    group_object.course=courses
                 except Course.DoesNotExist:
                     pass
         if 'students' in data:
@@ -109,21 +108,21 @@ class GroupsViewset(ModelViewSet):
                 teachers = data['teacher']
                 try:
                     xona = Teacher.objects.get(id=teachers)
-                    group_object.teacher.remove(xona)
+                    group_object.teacher = None
                 except Teacher.DoesNotExist:
                     pass
             if 'room' in data:
                 for room in data['room']:
                     try:
                         xona = Room.objects.get(id=room)
-                        group_object.room.remove(xona)
+                        group_object.room = None
                     except Room.DoesNotExist:
                         pass
             if 'course' in data:
                 for course in data['course']:
                     try:
                         xona = Course.objects.get(id=course)
-                        group_object.course.remove(xona)
+                        group_object.course=None
                     except Course.DoesNotExist:
                         pass
             if 'students' in data:
