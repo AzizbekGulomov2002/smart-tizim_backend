@@ -21,8 +21,6 @@ class GroupsViewset(ModelViewSet):
     # permission_classes = [IsManagerandDirectorOrReadOnly]
     def create(self, request, *args, **kwargs):
         data = request.data
-        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
-        group.save()
         if 'teacher' in data:
                 teachers = data['teacher']
                 try:
@@ -51,6 +49,9 @@ class GroupsViewset(ModelViewSet):
                     group.student.add(xona)
                 except Student.DoesNotExist:
                     pass
+        group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
+        group.save()
+       
         serializer = GroupSerializer(group)
         return Response(serializer.data)
     def partial_update(self, request, *args, **kwargs):
