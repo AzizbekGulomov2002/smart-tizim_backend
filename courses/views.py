@@ -22,26 +22,25 @@ class GroupsViewset(ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data
         group = Groups.objects.create(name=data['name'],education=data.get('education',None),status=data.get('status',None),start=data.get('start',None),start_lesson=data.get('start_lesson',None),finish=data.get('finish',None),finish_lesson=data.get('finish_lesson',None),user=request.user,day=data.get('day',None))
-        
         group.save()
         if 'teacher' in data:
                 teachers = data['teacher']
                 try:
-                    teacher = Teacher.objects.get(id=teachers['id'])
+                    teacher = Teacher.objects.get(id=teachers)
                     group.teacher.add(teacher)
                 except Teacher.DoesNotExist:
                     pass
         if 'room' in data:
                 room = data['room']
                 try:
-                    xona = Room.objects.get(id=room['id'])
+                    xona = Room.objects.get(id=room)
                     group.room.add(xona)
                 except Room.DoesNotExist:
                     pass
         if 'course' in data:
                 course = data['course']
                 try:
-                    courses = Course.objects.get(id=course['id'])
+                    courses = Course.objects.get(id=course)
                     group.course.add(courses)
                 except Course.DoesNotExist:
                     pass
@@ -60,21 +59,21 @@ class GroupsViewset(ModelViewSet):
         if 'teacher' in data:
                 teachers = data['teacher']
                 try:
-                    teacher = Teacher.objects.get(id=teachers['id'])
+                    teacher = Teacher.objects.get(id=teachers)
                     group_object.teacher.add(teacher)
                 except Teacher.DoesNotExist:
                     pass
         if 'room' in data:
                 room = data['room']
                 try:
-                    xona = Room.objects.get(id=room['id'])
+                    xona = Room.objects.get(id=room)
                     group_object.room.add(xona)
                 except Room.DoesNotExist:
                     pass
         if 'course' in data:
                 course = data['course']
                 try:
-                    xona = Course.objects.get(id=course['id'])
+                    xona = Course.objects.get(id=course)
                     group_object.course.add(xona)
                 except Course.DoesNotExist:
                     pass
@@ -108,21 +107,21 @@ class GroupsViewset(ModelViewSet):
             if 'teacher' in data:
                 teachers = data['teacher']
                 try:
-                    xona = Teacher.objects.get(id=teachers['id'])
+                    xona = Teacher.objects.get(id=teachers)
                     group_object.teacher.remove(xona)
                 except Teacher.DoesNotExist:
                     pass
             if 'room' in data:
                 for room in data['room']:
                     try:
-                        xona = Room.objects.get(id=room['id'])
+                        xona = Room.objects.get(id=room)
                         group_object.room.remove(xona)
                     except Room.DoesNotExist:
                         pass
             if 'course' in data:
                 for course in data['course']:
                     try:
-                        xona = Course.objects.get(id=course['id'])
+                        xona = Course.objects.get(id=course)
                         group_object.course.remove(xona)
                     except Course.DoesNotExist:
                         pass
